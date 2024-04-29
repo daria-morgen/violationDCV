@@ -15,7 +15,7 @@ class TestYoloHumanExplorer(TestCase):
         yolo_explorer.predict_and_save(user_id,
                                        'https://img.freepik.com/free-photo/confident-smiling-man-training-in-gym-flex-strong-biceps-show-muscles_176420-17997.jpg')
 
-        result_path = os.path.join(Settings.parent_dir, str(user_id))
+        result_path = os.path.join(Settings.predict_dir, str(user_id))
 
         self.assertTrue(os.path.isdir(result_path))
 
@@ -29,12 +29,12 @@ class TestYoloHumanExplorer(TestCase):
         yolo_explorer.predict_and_save(user_id,
                                        'https://img.freepik.com/free-photo/confident-smiling-man-training-in-gym-flex-strong-biceps-show-muscles_176420-17997.jpg')
 
-        result_path = os.path.join(Settings.parent_dir, str(user_id) + '/predict/crops/person')
+        result_path = os.path.join(Settings.predict_dir, str(user_id) + '/predict/crops/person')
 
         self.assertTrue(len(os.listdir(result_path)) > 0)
 
         # Delete a non-empty directory called 'thedirectory'
-        shutil.rmtree(os.path.join(Settings.parent_dir, str(user_id)))
+        shutil.rmtree(os.path.join(Settings.predict_dir, str(user_id)))
 
 
     def test_predict_and_save_predict_human_on_video(self):
@@ -44,9 +44,9 @@ class TestYoloHumanExplorer(TestCase):
         yolo_explorer.predict_and_save(user_id,
                                        'https://youtu.be/LNwODJXcvt4?si=cypiuxu9sijT9ZUE')
 
-        result_path = os.path.join(Settings.parent_dir, str(user_id) + '/predict/crops/person')
+        result_path = os.path.join(Settings.predict_dir, str(user_id) + '/predict/crops/person')
 
         self.assertTrue(len(os.listdir(result_path)) == Settings.max_crop)
 
         # Delete a non-empty directory called 'thedirectory'
-        shutil.rmtree(os.path.join(Settings.parent_dir, str(user_id)))
+        shutil.rmtree(os.path.join(Settings.predict_dir, str(user_id)))

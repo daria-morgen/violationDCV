@@ -14,6 +14,6 @@ class YoloHumanExplorer:
         self.model.predict(data,
                            save=True, save_crop=True,
                            imgsz=320, conf=0.5,
-                           project=os.path.join(Settings.parent_dir, str(user_id)),
+                           project=os.path.join(Settings.predict_dir, str(user_id)),
                            classes=[0], vid_stride=50)
 
