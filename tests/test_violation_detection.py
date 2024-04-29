@@ -1,15 +1,14 @@
 from unittest import TestCase
-from app.handlers.violation_detection import ViolationDetection
+from app.handlers.violation_detection import ViolationDetector
 from app.config.settings import Settings
 
 import os
 
 
-
 class TestViolationDetection(TestCase):
 
     def test_predict_okey(self):
-        vp = ViolationDetection()
+        vp = ViolationDetector()
 
         img_path = os.path.join(Settings.parent_dir, 'train/darasets/test/okey/okey374.jpg')
 
@@ -18,7 +17,7 @@ class TestViolationDetection(TestCase):
         self.assertEqual(pred, 0)
 
     def test_predict_bad(self):
-        vp = ViolationDetection()
+        vp = ViolationDetector()
 
         img_path = os.path.join(Settings.parent_dir, 'train/darasets/test/bad/bad199.jpg')
 

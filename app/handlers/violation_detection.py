@@ -7,7 +7,7 @@ from train.main import ConvNet
 from app.utils import image_formatter
 
 
-class ViolationDetection:
+class ViolationDetector:
     def __init__(self):
         self.model = ConvNet()
         self.model.load_state_dict(torch.load(Settings.model_dir))
