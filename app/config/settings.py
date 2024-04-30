@@ -3,7 +3,9 @@ class Settings:
     parent_dir = "/Users/Daria/projects/PycharmProjects/violationDCV"
 
     predict_dir = "/Users/Daria/projects/PycharmProjects/violationDCV/yolo_predict"
+
     model_dir = "/Users/Daria/projects/PycharmProjects/violationDCV/app/handlers/models/ppe_net.pth"
+    yolo_model_dir = "/Users/Daria/projects/PycharmProjects/violationDCV/app/handlers/models/yolov8n.pt"
 
     max_crop = 10
 

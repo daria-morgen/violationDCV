@@ -1,19 +1,19 @@
 from ultralytics import YOLO
-
-import os
 from app.config.settings import Settings
 
 
-class YoloHumanExplorer:
+class YoloPersonExplorer:
 
     def __init__(self):
-        self.model = YOLO('yolov8n.pt')
+        self.model = YOLO(Settings.yolo_model_dir)
 
-    def predict_and_save(self, user_id, data):
+    def predict_and_save(self, data, project_path):
 
-        self.model.predict(data,
-                           save_crop=True,
+        results = self.model.predict(data,
+                           save_crop=True, #save_txt=True,
                            imgsz=320, conf=0.5,
-                           project=os.path.join(Settings.predict_dir, str(user_id)),
+                           project=project_path,
                            classes=[0], vid_stride=50)
+
+        assert (len(results[0].boxes) != 0), "No persons found"
 
