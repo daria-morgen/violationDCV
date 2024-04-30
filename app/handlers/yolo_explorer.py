@@ -9,7 +9,7 @@ class YoloPersonExplorer:
 
     def predict_and_save(self, data, project_path):
 
-        results = self.model.predict(data,
+        results = self.model.predict(data, save=True,
                            save_crop=True, #save_txt=True,
                            imgsz=320, conf=0.5,
                            project=project_path,
