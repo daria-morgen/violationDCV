@@ -1,0 +1,5 @@
+{'img': '/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts/done_crops/okey357.jpg', 'label': 'okay', 'status': 'success', 'description: ''}
+{'img': '/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts/images/okey357.jpg', 'label': '', 'status': 'done', 'description: ''}
+{'img': '/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts/done_crops/okey357.jpg', 'label': 'okay', 'status': 'success', 'description: ''}
+{'img': '/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts/images/okey357.jpg', 'label': '', 'status': 'done', 'description: ''}
+{'img': '/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts/images/unknow88.jpg', 'label': '', 'status': 'error', 'description: 'No persons found'}

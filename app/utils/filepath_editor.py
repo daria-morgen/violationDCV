@@ -18,7 +18,7 @@ def get_predict_path(project_path):
 
 
 def get_predict_path_by_user(user_id):
-    corp_path = os.path.join(Settings.predict_dir, str(user_id))
+    corp_path = os.path.join(Settings.project_predicts, str(user_id))
     return corp_path
 
 

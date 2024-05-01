@@ -2,7 +2,9 @@ class Settings:
     # user
     parent_dir = "/Users/Daria/projects/PycharmProjects/violationDCV"
 
-    predict_dir = "/Users/Daria/projects/PycharmProjects/violationDCV/yolo_predict"
+    project_predicts = "/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts"
+    project_predicts_data = project_predicts+"/data"
+    log_file = project_predicts+"/images"
 
     model_dir = "/Users/Daria/projects/PycharmProjects/violationDCV/app/handlers/models/ppe_net.pth"
     yolo_model_dir = "/Users/Daria/projects/PycharmProjects/violationDCV/app/handlers/models/yolov8n.pt"

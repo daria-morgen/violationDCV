@@ -3,7 +3,6 @@ import shutil
 from app.handlers.yolo_explorer import YoloPersonExplorer
 from app.handlers.violation_detection import ViolationDetector
 
-
 import os
 from app.utils.filepath_editor import get_predict_path, get_images_path, get_img_path
 
@@ -13,31 +12,53 @@ class ViolatationDCV:
         self.person_explorer = YoloPersonExplorer()
         self.violation_detector = ViolationDetector()
 
+    def clear(self, project_path):
+
+        predicts = project_path + '/predict'
+
+        if os.path.isdir(project_path + '/predict'):
+            shutil.rmtree(predicts)
+
+    @staticmethod
+    def write_log(project_path, img, label, status, description):
+        with open(project_path + '/results.txt', 'a') as file:
+            file.write(
+                "{'img': '" + img + "', 'label': '" + label + "', 'status': '" + status + "', 'description: '" + description +
+                "'}\n")
+
     def detect(self, data, project_path):
-        self.person_explorer.predict_and_save(data, project_path)
 
-        # Check whether the specified path exists or not
-        isExist = os.path.exists(project_path+'/done')
-        if not isExist:
-            # Create a new directory because it does not exist
-            os.makedirs(project_path+'/done')
-
-        predict_path = get_predict_path(project_path)
-
-        images = os.listdir(get_images_path(predict_path))
+        global pe
+        data = shutil.copy(data, project_path + '/images')
 
         results = list()
-        for img in images:
-            print(img)
-            t_img = get_img_path(predict_path, img)
-            predict = self.violation_detector.predict(t_img)
 
-            done_img = project_path+'/done/'+img
-            shutil.move(t_img, done_img)
+        try:
+            pe = self.person_explorer.predict_and_save(data, project_path)
+        except Exception as e:
+            self.write_log(project_path, data, '', 'error', str(e))
+            self.clear(project_path)
 
-            results.append({'img': t_img, 'label': predict})
+        if len(pe[0].boxes) > 0:
+            predict_person_crops = os.path.join(project_path, 'predict/crops/person')
 
-            if os.path.isdir(predict_path):
-                shutil.rmtree(predict_path)
+            images = os.listdir(predict_person_crops)
+
+            for img in images:
+                t_img = os.path.join(predict_person_crops, img)
+
+                try:
+                    predict = self.violation_detector.predict(t_img)
+
+                    done_img = project_path + '/done_crops/' + img
+                    shutil.move(t_img, done_img)
+                    results.append({'img': t_img, 'label': predict})
+                    self.write_log(project_path, done_img, predict, 'success', '')
+
+                except Exception as e:
+                    self.write_log(project_path, data, '', 'error', str(e))
+
+        self.write_log(project_path, data, '', 'done', '')
+        self.clear(project_path)
 
         return results
