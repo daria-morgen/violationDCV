@@ -38,25 +38,28 @@ class ViolatationDCV:
         except Exception as e:
             self.write_log(project_path, data, '', 'error', str(e))
             self.clear(project_path)
+            raise
 
         if len(pe[0].boxes) > 0:
             predict_person_crops = os.path.join(project_path, 'predict/crops/person')
+            if os.path.isdir(predict_person_crops):
+                images = os.listdir(predict_person_crops)
 
-            images = os.listdir(predict_person_crops)
+                for img in images:
+                    t_img = os.path.join(predict_person_crops, img)
 
-            for img in images:
-                t_img = os.path.join(predict_person_crops, img)
+                    try:
+                        predict = self.violation_detector.predict(t_img)
 
-                try:
-                    predict = self.violation_detector.predict(t_img)
+                        done_img = project_path + '/done_crops/' + img
+                        shutil.move(t_img, done_img)
+                        results.append({'img': t_img, 'label': predict})
+                        self.write_log(project_path, done_img, predict, 'success', '')
 
-                    done_img = project_path + '/done_crops/' + img
-                    shutil.move(t_img, done_img)
-                    results.append({'img': t_img, 'label': predict})
-                    self.write_log(project_path, done_img, predict, 'success', '')
-
-                except Exception as e:
-                    self.write_log(project_path, data, '', 'error', str(e))
+                    except Exception as e:
+                        self.write_log(project_path, data, '', 'error', str(e))
+            else:
+                self.write_log(project_path, data, '', 'done', 'No persons found')
 
         self.write_log(project_path, data, '', 'done', '')
         self.clear(project_path)

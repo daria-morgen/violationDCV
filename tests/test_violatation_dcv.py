@@ -4,8 +4,6 @@ from unittest import TestCase
 from app.handlers.violatation_dcv import ViolatationDCV
 from app.config.settings import Settings
 
-from app.utils.filepath_editor import get_predict_path_by_user
-
 
 class TestViolatationDCV(TestCase):
 
@@ -15,11 +13,9 @@ class TestViolatationDCV(TestCase):
         with self.assertRaises(Exception):
             app.detect(Settings.parent_dir + '/train/darasets/test/unknow/unknow88.jpg', Settings.project_predicts)
 
-
     def test_detect(self):
         app = ViolatationDCV()
 
         result = app.detect(Settings.parent_dir + '/train/darasets/test/okey/okey357.jpg', Settings.project_predicts)
 
         self.assertEqual(result[0].get('label'), 'okay')
-

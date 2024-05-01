@@ -17,11 +17,3 @@ def get_predict_path(project_path):
     return images_path
 
 
-def get_predict_path_by_user(user_id):
-    corp_path = os.path.join(Settings.project_predicts, str(user_id))
-    return corp_path
-
-
-def get_crop_path_by_user(user_id):
-    images_path = os.path.join(get_predict_path_by_user(user_id), 'predict/crops/person')
-    return images_path

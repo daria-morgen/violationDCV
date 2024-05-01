@@ -1,13 +1,17 @@
 import os.path
+import shutil
 
 import telebot
 from credentials import bot_token
 import logging
 import validators
 
+import requests
+from PIL import Image
+
 from app.handlers.violatation_dcv import ViolatationDCV
 
-project_predicts = "/Users/Daria/projects/PycharmProjects/violationDCV/bot/project_predicts"
+project_predicts = "/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts"
 
 token = bot_token
 bot = telebot.TeleBot(token)
@@ -20,24 +24,44 @@ vdcv = ViolatationDCV()
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "Отправь мне фото или ссылку на фото/видео")
+    bot.reply_to(message, "Привет! Отправь мне ссылку на картинку")
 
 
 @bot.message_handler(content_types='text')
 def message_reply(message):
     if validators.url(message.text):
-        if ".jpg" in message.text:
-            save_path = os.path.join(project_predicts, str(message.chat.id))
+
+        url = message.text
+
+        try:
+            data = requests.get(url).content
+            img = str(message.message_id)+'.jpg'
+            with open(img, 'wb') as file:
+                file.write(data)
+
             try:
-                result = vdcv.detect(message.text[0:message.text.index(".jpg") + len(".jpg")], save_path)
+                result = vdcv.detect(img, project_predicts)
                 for res in result:
-                    bot.send_message(message.chat.id, res.get('label'))
-            except:
-                bot.send_message(message.chat.id, 'Во время работы со ссылкой произошла ошибка')
-        else:
-            bot.send_message(message.chat.id, 'Ваша ссылка не является картинкой формата jpeg или пр:')
+                    label = res.get('label')
+                    if label=='okay':
+                        bot.send_message(message.chat.id, 'Рабочий экипирован')
+                    elif label=='bad':
+                        bot.send_message(message.chat.id, 'Рабочий не экипирован')
+                    elif label=='unknown':
+                        bot.send_message(message.chat.id, 'Сложно распознать экипирован или нет')
+                    else:
+                        bot.send_message(message.chat.id, label)
+
+
+            except Exception as e:
+                bot.send_message(message.chat.id, str(e))
+
+            os.remove(img)
+        except Exception as e:
+            bot.send_message(message.chat.id, str(e))
     else:
         bot.send_message(message.chat.id, 'Ваше сообщение не похоже на ссылку на картинку или видео')
+
 
 # @bot.message_handler(content_types='photo')
 # def get_broadcast_picture(message):

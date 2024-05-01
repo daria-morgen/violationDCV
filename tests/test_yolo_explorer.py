@@ -5,7 +5,7 @@ from app.handlers.yolo_explorer import YoloPersonExplorer
 from app.config.settings import Settings
 import shutil
 
-from app.utils.filepath_editor import get_predict_path, get_crop_path_by_user
+from app.utils.filepath_editor import get_predict_path
 
 
 class TestYoloPersonExplorer(TestCase):
@@ -18,10 +18,10 @@ class TestYoloPersonExplorer(TestCase):
         yolo_explorer.predict_and_save(img,
                                        Settings.project_predicts)
 
-        self.assertTrue(os.path.isdir(Settings.project_predicts+"/predict"))
+        self.assertTrue(os.path.isdir(Settings.project_predicts + "/predict"))
 
         # Delete a non-empty directory called 'thedirectory'
-        shutil.rmtree(Settings.project_predicts+"/predict")
+        shutil.rmtree(Settings.project_predicts + "/predict")
 
     def test_predict_and_save_predict_person(self):
         yolo_explorer = YoloPersonExplorer()
@@ -32,10 +32,10 @@ class TestYoloPersonExplorer(TestCase):
             img,
             Settings.project_predicts)
 
-        self.assertTrue(len(Settings.project_predicts+'/predict/crops/person') > 0)
+        self.assertTrue(len(Settings.project_predicts + '/predict/crops/person') > 0)
 
         # Delete a non-empty directory called 'thedirectory'
-        shutil.rmtree(Settings.project_predicts+"/predict")
+        shutil.rmtree(Settings.project_predicts + "/predict")
 
     def test_predict_and_save_user_person_not_found(self):
         yolo_explorer = YoloPersonExplorer()
@@ -46,7 +46,7 @@ class TestYoloPersonExplorer(TestCase):
             yolo_explorer.predict_and_save(img,
                                            Settings.project_predicts)
 
-        shutil.rmtree(Settings.project_predicts+"/predict")
+        shutil.rmtree(Settings.project_predicts + "/predict")
 
     # def test_predict_and_save_predict_person_on_video(self):
     #     yolo_explorer = YoloPersonExplorer()
