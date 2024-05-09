@@ -1,8 +1,7 @@
 import torch
 import torch.nn.functional as F
 
-from app.config.settings import Settings
-from train.main import ConvNet
+from app.trainers.vdcv_trainer import ConvNet
 from app.utils import image_formatter
 
 
@@ -19,9 +18,9 @@ def unknown():
 
 
 class ViolationDetector:
-    def __init__(self):
+    def __init__(self, args):
         self.model = ConvNet()
-        self.model.load_state_dict(torch.load(Settings.model_dir))
+        self.model.load_state_dict(torch.load(args.vdcv_model_dir))
 
     def predict(self, img):
         pred = self.model(image_formatter.format_img(img).unsqueeze(0))

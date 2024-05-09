@@ -9,7 +9,7 @@ import validators
 import requests
 from PIL import Image
 
-from app.handlers.violatation_dcv import ViolatationDCV
+from app.handlers.violation_dcv import ViolationDEV
 
 project_predicts = "/Users/Daria/projects/PycharmProjects/violationDCV/project_predicts"
 
@@ -19,7 +19,7 @@ bot = telebot.TeleBot(token)
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)  # Outputs debug messages to console.
 
-vdcv = ViolatationDCV()
+vdcv = ViolationDEV()
 
 
 @bot.message_handler(commands=['start', 'help'])

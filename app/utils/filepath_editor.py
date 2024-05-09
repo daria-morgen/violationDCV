@@ -1,5 +1,4 @@
 import os
-from app.config.settings import Settings
 
 
 def get_img_path(predict_path, img):

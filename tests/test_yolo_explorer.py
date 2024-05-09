@@ -2,51 +2,55 @@ import os
 from unittest import TestCase
 
 from app.handlers.yolo_explorer import YoloPersonExplorer
-from app.config.settings import Settings
 import shutil
 
-from app.utils.filepath_editor import get_predict_path
+from app.options.train_options import TrainCompOptions
 
 
 class TestYoloPersonExplorer(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.project = './data/project_predicts'
+        if not os.path.isdir(cls.project):
+            os.mkdir(cls.project)
+
+        parser = TrainCompOptions()
+        cls.args = parser.parse()
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.project)
 
     def test_predict_and_save_create_user_dir(self):
-        yolo_explorer = YoloPersonExplorer()
-        user_id = 1
-        img = Settings.parent_dir + '/train/darasets/test/okey/okey470.jpg'
+        yolo_explorer = YoloPersonExplorer(self.args)
+        img = './data/okey470.jpg'
 
         yolo_explorer.predict_and_save(img,
-                                       Settings.project_predicts)
+                                       self.project)
 
-        self.assertTrue(os.path.isdir(Settings.project_predicts + "/predict"))
+        self.assertTrue(os.path.isdir('./data/project_predicts/predict'))
 
-        # Delete a non-empty directory called 'thedirectory'
-        shutil.rmtree(Settings.project_predicts + "/predict")
 
     def test_predict_and_save_predict_person(self):
-        yolo_explorer = YoloPersonExplorer()
-        user_id = 2
-        img = Settings.parent_dir + '/train/darasets/test/okey/okey470.jpg'
+        yolo_explorer = YoloPersonExplorer(self.args)
+        img = './data/okey470.jpg'
 
         yolo_explorer.predict_and_save(
             img,
-            Settings.project_predicts)
+            self.project)
 
-        self.assertTrue(len(Settings.project_predicts + '/predict/crops/person') > 0)
+        self.assertTrue(len('./data/project_predicts/predict/crops/person') > 0)
 
         # Delete a non-empty directory called 'thedirectory'
-        shutil.rmtree(Settings.project_predicts + "/predict")
 
     def test_predict_and_save_user_person_not_found(self):
-        yolo_explorer = YoloPersonExplorer()
-        user_id = 3
-        img = Settings.parent_dir + '/train/darasets/test/unknow/unknow97.jpg'
+        yolo_explorer = YoloPersonExplorer(self.args)
+        img = './data/unknow88.jpg'
 
         with self.assertRaises(Exception):
             yolo_explorer.predict_and_save(img,
-                                           Settings.project_predicts)
+                                           self.project)
 
-        shutil.rmtree(Settings.project_predicts + "/predict")
 
     # def test_predict_and_save_predict_person_on_video(self):
     #     yolo_explorer = YoloPersonExplorer()

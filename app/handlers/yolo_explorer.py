@@ -1,11 +1,10 @@
 from ultralytics import YOLO
-from app.config.settings import Settings
 
 
 class YoloPersonExplorer:
 
-    def __init__(self):
-        self.model = YOLO(Settings.yolo_model_dir)
+    def __init__(self, args):
+        self.model = YOLO(args.yolo_model_dir)
 
     def predict_and_save(self, data, project_path):
         results = self.model.predict(data, save=True,
@@ -14,6 +13,7 @@ class YoloPersonExplorer:
                                      project=project_path,
                                      classes=[0], vid_stride=50)
 
-        assert (len(results[0].boxes) != 0), "No persons found"
+        if len(results[0].boxes).__eq__(0):
+            raise "No persons found"
 
         return results
