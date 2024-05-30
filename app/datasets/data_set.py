@@ -1,10 +1,23 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
-from app.utils import image_formatter
-
 import os
+
+import cv2
+import torch
+
+import numpy as np
+
+
+def format_img(img_path):
+    img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = img.astype(np.float32)
+    img = img / 255.0
+
+    img = cv2.resize(img, (64, 64), interpolation=cv2.INTER_AREA)
+    img = img.transpose((2, 0, 1))
+
+    t_img = torch.from_numpy(img)
+
+    return t_img
 
 
 class Dataset3class(torch.utils.data.Dataset):
@@ -35,8 +48,7 @@ class Dataset3class(torch.utils.data.Dataset):
             idx -= len(self.dir1_list) + len(self.dir2_list)
             img_path = os.path.join(self.path_dir3, self.dir3_list[idx])
 
-        t_img = image_formatter.format_img(img_path)
+        t_img = format_img(img_path)
         t_class_id = torch.tensor(class_id)
 
         return {'img': t_img, 'label': t_class_id}
-

@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 
 from app.trainers.vdcv_trainer import ConvNet
-from app.utils import image_formatter
+from app.datasets.data_set import format_img
 
 
 def okay():
@@ -23,7 +23,7 @@ class ViolationDetector:
         self.model.load_state_dict(torch.load(args.vdcv_model_dir))
 
     def predict(self, img):
-        pred = self.model(image_formatter.format_img(img).unsqueeze(0))
+        pred = self.model(format_img(img).unsqueeze(0))
 
         probs = F.softmax(pred.detach()).numpy().argmax(1)
 

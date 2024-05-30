@@ -24,13 +24,13 @@ class BaseOptions:
 
 
 
-        self.parser.add_argument('--train_okay', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/train/okey', help='models are saved here')
-        self.parser.add_argument('--train_bad', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/train/bad', help='models are saved here')
-        self.parser.add_argument('--train_unknow', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/train/unknow', help='models are saved here')
+        self.parser.add_argument('--train_okay', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/vdcv/train/okey', help='models are saved here')
+        self.parser.add_argument('--train_bad', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/vdcv/train/bad', help='models are saved here')
+        self.parser.add_argument('--train_unknow', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/vdcv/train/unknow', help='models are saved here')
 
-        self.parser.add_argument('--test_okay', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/train/okey', help='models are saved here')
-        self.parser.add_argument('--test_bad', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/train/bad', help='models are saved here')
-        self.parser.add_argument('--test_unknow', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/train/unknow', help='models are saved here')
+        self.parser.add_argument('--test_okay', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/vdcv/train/okey', help='models are saved here')
+        self.parser.add_argument('--test_bad', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/vdcv/train/bad', help='models are saved here')
+        self.parser.add_argument('--test_unknow', type=str, default='/Users/Daria/projects/PycharmProjects/violationDCV/app/datasets/vdcv/train/unknow', help='models are saved here')
         self.initialized = True
 
     def parse(self):
